@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <stdbool.h>
+#include <stdio.h> 
+#include <stdbool.h> 
 
 // Structure to store the date and month//
 struct date {
@@ -137,9 +135,11 @@ int main()
         else {
             int bus_choice;
             printf("Would you like to opt for buses?\n 1: Yes (+$2000) \n 2: No\n Your choice: "); scanf("%d", &bus_choice);
+            
             if(bus_choice == 1) {
                     s1.transport = true;
                     printf("\nThe transport fee is $%d.\n", transport_amt); }
+                
                 else if(bus_choice == 2) {
                         s1.transport = false;
                         printf("\nThe transport option has been canceled.\n"); }
