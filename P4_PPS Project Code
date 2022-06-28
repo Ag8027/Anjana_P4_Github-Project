@@ -75,8 +75,8 @@ int main()
 
         // entering of details with references to the student info structure's elements//
         printf("\n\tPlease Enter details of the student:\n");
-        printf("First Name: "); scanf("%s", &s1.firstName);
-        printf("Last Name: "); scanf("%s", &s1.lastName);
+        printf("First Name: "); scanf("%s", s1.firstName);
+        printf("Last Name: "); scanf("%s", s1.lastName);
         printf("Grade/Class: "); scanf("%d", &s1.grade);
 
         //Tuition and scholarship calculation from calling functions by value //
@@ -139,7 +139,7 @@ int main()
             printf("Would you like to opt for buses?\n 1: Yes (+$2000) \n 2: No\n Your choice: "); scanf("%d", &bus_choice);
             if(bus_choice == 1) {
                     s1.transport = true;
-                    printf("\nThe transport fee is $%d.", transport_amt); }
+                    printf("\nThe transport fee is $%d.\n", transport_amt); }
                 else if(bus_choice == 2) {
                         s1.transport = false;
                         printf("\nThe transport option has been canceled.\n"); }
@@ -185,12 +185,12 @@ int main()
         t1.salary = 3000;
         printf("\n\t\tFor accessing information on your salary.\n");
         printf("\n\tPlease Enter your details:\n");
-        printf("First Name: "); scanf("%s", &t1.fname);
-        printf("Last Name: "); scanf("%s", &t1.lname);
+        printf("First Name: "); scanf("%s", t1.fname);
+        printf("Last Name: "); scanf("%s", t1.lname);
 
         // checking for date constraints in determining whether the user can avail a bonus //
         printf("\nA special bonus is applicable if your enrollment was done before the date of 10/07/2022.\n");
-        printf("\nEnter the date denoting the beginning of your shifts \n\t\t[OR] \nEnter the date of your first day of work (in DD/MM/YYYY Format): ");
+        printf("\nEnter the date of your first day of work (in DD/MM/YYYY Format): ");
 
         scanf("%d/%d/%d", &d1.date, &d1.month, &d1.year);
 
@@ -198,7 +198,7 @@ int main()
 
                 t1.dateStatus = true;
                 printf("\nStatus: %s", t1.dateStatus ? "Within date\n" : "Beyond date\n");
-                printf("No of subjects taught: ");
+                printf("\nNo of subjects taught: ");
                 scanf("%d", &t1.noOfSubs);
 
         // nested (checking) condition: bonus of $500 is provided for teaching more than 2 subjects //
