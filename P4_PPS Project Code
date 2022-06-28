@@ -1,0 +1,235 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <stdbool.h>
+
+// Structure to store the date and month//
+struct date {
+    int date;
+    int month;
+    int year;
+}d1;
+
+// structure to store student info and details //
+struct student_info {
+    char firstName[25];
+    char lastName[30]; // character arrays to store names as strings //
+    int grade;
+    int marks;
+    bool hostel;
+    bool transport;
+}s1;
+
+// structure to store teacher info and salary //
+struct teacher_info {
+    char fname[25];
+    char lname[30]; // character arrays to store names as strings //
+    int noOfSubs;
+    float salary, bonus;
+    bool bonusStatus, dateStatus;
+};
+
+struct teacher_info t1;
+
+// functions to calculate scholarships for certain marks //
+float scholarship_calc1(int tuition){
+    float scholarship1_amt = tuition * 0.30;
+    return tuition - scholarship1_amt;
+}
+
+float scholarship_calc2(int tuition){
+    float scholarship_amt2 = tuition * 0.15;
+    return tuition - scholarship_amt2;
+}
+
+// function with Pointers to print the total amount to be paid //
+void total_amt_calc(float *total){
+    printf("\nThe total fee to be paid: $%.2f\n",*total);
+    }
+
+// Declaration of files //
+FILE *fp_student;
+FILE *fp_teacher;
+
+int main()
+{
+    printf("\t\tWelcome to XYZ School's Payment Web-page!\n");
+
+    // selection options on display page //
+    int choice_1;
+    printf("Please select an option: You are:\n1: A student\n2: A teacher\nYour choice: ");
+    scanf("%d", &choice_1);
+
+    if (choice_1 == 1) {
+    printf("\n\t  Payments of Tuition, Transport and Hostel facilities.\n");
+
+    int choice_2;
+    printf("\nPlease Enter: \n 1: to pay \n 2: to exit the page. \nYour choice: ");
+    scanf("%d", &choice_2);
+
+    if(choice_2 == 2) {
+    } else if(choice_2 == 1) {
+
+        // opening the first file and writing data onto it //
+        fp_student = fopen("data1.txt", "w");
+
+        // entering of details with references to the student info structure's elements//
+        printf("\n\tPlease Enter details of the student:\n");
+        printf("First Name: "); scanf("%s", &s1.firstName);
+        printf("Last Name: "); scanf("%s", &s1.lastName);
+        printf("Grade/Class: "); scanf("%d", &s1.grade);
+
+        //Tuition and scholarship calculation from calling functions by value //
+        int tuition = 10000;
+        printf("\n\t Tuition fee section: \n");
+        if(s1.grade > 6) {
+                printf("Marks scored previous year: "); scanf("%d", &s1.marks);
+                if(s1.marks >= 90){
+                        printf("You are eligible for a scholarship!\n");
+                        printf("The tuition fee is $%.2f.\n", scholarship_calc1(tuition));
+                        tuition = scholarship_calc1(tuition);
+                }
+                else if(s1.marks >= 85 && s1.marks < 90) {
+                        printf("You are eligible for a scholarship!\n");
+                        printf("The tuition fee is $%.2f.\n", scholarship_calc2(tuition));
+                        tuition = scholarship_calc2(tuition);
+                } else {
+                    printf("No scholarships are available.\n");
+                    printf("The tuition fee is $%d.\n", tuition); }
+        } else if(s1.grade <= 6) {
+                printf("No scholarships are available.\n");
+                printf("The tuition fee is $%d.\n", tuition); }
+
+        //Hostel Booking options//
+        printf("\n\t Hostel Booking section: \n");
+        int hostel_preferences[1]; // array to store preferences/choices made //
+        int hostel_choice;
+
+        printf("Would you like to opt for hostel facilities? \n 1: Yes (+$5000)\n 2: No\nYour choice: ");
+        scanf("%d", &hostel_choice);
+        int hostel_amt = 5000;
+
+        if(hostel_choice == 2){
+                s1.hostel = false;
+                printf ("\nHostel option has been canceled.\n"); }
+        else if(hostel_choice == 1) {
+
+            s1.hostel = true;
+            printf("\nPlease select your preferences: \n1: 4 in a room\t 2: 6 in a room: ");
+            scanf("%d", &hostel_preferences[0]);
+
+            printf("3: A/C room (+ $100)\t 4: Non-A/C room: ");
+            scanf("%d", &hostel_preferences[1]);
+
+            if(hostel_preferences[1] == 3) {
+                    hostel_amt += 100;
+                    printf("The hostel fee is %d.\n", hostel_amt); }
+            else if(hostel_preferences[1] == 4) { printf("The hostel fee is $%d.\n", hostel_amt); }
+        }
+
+        // Transport Booking Options //
+        printf("\n\tTransport Booking section: \n");
+        int transport_amt = 2000;
+
+        if(s1.hostel) {
+                s1.transport = false;
+                printf("Transport options are not applicable after booking hostel facilities.\n"); }
+        else {
+            int bus_choice;
+            printf("Would you like to opt for buses?\n 1: Yes (+$2000) \n 2: No\n Your choice: "); scanf("%d", &bus_choice);
+            if(bus_choice == 1) {
+                    s1.transport = true;
+                    printf("\nThe transport fee is $%d.", transport_amt); }
+                else if(bus_choice == 2) {
+                        s1.transport = false;
+                        printf("\nThe transport option has been canceled.\n"); }
+        }
+
+        // Calculating the total (final) fee from calling a function (with pointers) by reference //
+        printf("\n\tPlease find your details and final payment information below: \n");
+        printf("Name of student: %s %s\n", s1.firstName, s1.lastName);
+        printf("Class student belongs to: %d\n", s1.grade);
+
+        float total;
+        if(s1.hostel) {
+            printf("Tuition fee: $%d\n", tuition);
+            printf("Hostel fee: $%d\n", hostel_amt);
+            printf("Transport fee: N/A\n");
+            total = tuition + hostel_amt;
+            total_amt_calc(&total); // calling by reference //
+
+        } else if(s1.transport) {
+            printf("Tuition fee: $%d\n", tuition);
+            printf("Hostel fee: N/A\n");
+            printf("Transport fee: $%d\n", transport_amt);
+            total = tuition + transport_amt;
+            total_amt_calc(&total); // calling by reference //
+
+        } else if(!s1.hostel && !s1.transport){
+            printf("Tuition fee: $%d\n", tuition);
+            printf("Hostel fee: N/A\n");
+            printf("Transport fee: N/A\n");
+            total = tuition;
+            total_amt_calc(&total); // calling by reference //
+    }
+        // closing the file //
+        fclose(fp_student);
+    }
+
+} else if(choice_1 == 2){
+
+        // opening the second file and writing data onto it //
+        fp_teacher = fopen("data2.txt", "w");
+
+        // entering of details with references to the student info structure elements//
+        t1.salary = 3000;
+        printf("\n\t\tFor accessing information on your salary.\n");
+        printf("\n\tPlease Enter your details:\n");
+        printf("First Name: "); scanf("%s", &t1.fname);
+        printf("Last Name: "); scanf("%s", &t1.lname);
+
+        // checking for date constraints in determining whether the user can avail a bonus //
+        printf("\nA special bonus is applicable if your enrollment was done before the date of 10/07/2022.\n");
+        printf("\nEnter the date denoting the beginning of your shifts \n\t\t[OR] \nEnter the date of your first day of work (in DD/MM/YYYY Format): ");
+
+        scanf("%d/%d/%d", &d1.date, &d1.month, &d1.year);
+
+        if(d1.date <= 31 && d1.month <= 12 && d1.year < 2022 || d1.date < 10 && d1.month < 8 && d1.year == 2022) {
+
+                t1.dateStatus = true;
+                printf("\nStatus: %s", t1.dateStatus ? "Within date\n" : "Beyond date\n");
+                printf("No of subjects taught: ");
+                scanf("%d", &t1.noOfSubs);
+
+        // nested (checking) condition: bonus of $500 is provided for teaching more than 2 subjects //
+                if(t1.noOfSubs >= 2){
+                    t1.bonus = 500.00;
+                    t1.bonusStatus = true;
+                    printf("\nBonus applicable: $%.2f\n", t1.bonus);
+                } else {
+                    t1.bonusStatus = false;
+                    t1.bonus = 0.00;
+                    printf("Bonuses are not applicable.\n");
+                }
+        } else { printf("\nBonuses are not applicable.\n");
+                 printf("\nEnter the no of subjects taught: ");
+                 scanf("%d", &t1.noOfSubs);
+                 // if beyond date, number of subjects taught is just stored //
+        }
+
+        // Displaying the final salary and details of the teacher //
+        printf("\n\tPlease find your details and salary information below: \n");
+        printf("\nName of teacher: %s %s\n", t1.fname, t1.lname);
+        printf("Number of subjects taught: %d\n", t1.noOfSubs);
+        printf("Date of enrollment: %d/%d/%d", d1.date, d1.month, d1.year);
+        printf("\nBonus Status: %s", t1.bonusStatus ? "Applicable\n" : "N/A\n");
+        printf("Total Salary: $%.2f\n", t1.bonusStatus ? t1.bonus + t1.salary : t1.salary);
+
+        fclose(fp_teacher); // closing the file //
+}
+
+//Displaying a thank you message at the end //
+printf("\nThank you for visiting our web-page.\n");
+
+   return 0;
+}
