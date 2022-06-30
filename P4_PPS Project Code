@@ -74,7 +74,8 @@ int main()
         // entering of details with references to the student info structure's elements//
         printf("\n\tPlease Enter details of the student:\n");
         printf("First Name: "); scanf("%s", s1.firstName);
-        printf("Last Name: "); scanf("%s", s1.lastName);
+        printf("Last Name: "); scanf("%s", s1.lastName); 
+        fprintf(fp_student, "Name: %s %s", s1.firstName, s1.lastName); // writing onto the file // 
         printf("Grade/Class: "); scanf("%d", &s1.grade);
 
         //Tuition and scholarship calculation from calling functions by value //
@@ -181,12 +182,13 @@ int main()
         // opening the second file and writing data onto it //
         fp_teacher = fopen("data2.txt", "w");
 
-        // entering of details with references to the student info structure elements//
+        // entering of details with references to the teacher info structure elements//
         t1.salary = 3000;
         printf("\n\t\tFor accessing information on your salary.\n");
         printf("\n\tPlease Enter your details:\n");
         printf("First Name: "); scanf("%s", t1.fname);
         printf("Last Name: "); scanf("%s", t1.lname);
+        fprintf(fp_teacher, "Name: %s %s", t1.fname, t1.lname); // writing onto the file // 
 
         // checking for date constraints in determining whether the user can avail a bonus //
         printf("\nA special bonus is applicable if your enrollment was done before the date of 10/07/2022.\n");
@@ -211,7 +213,10 @@ int main()
                     t1.bonus = 0.00;
                     printf("Bonuses are not applicable.\n");
                 }
-        } else { printf("\nBonuses are not applicable.\n");
+        } else { 
+                 t1.dateStatus = false; 
+                 printf("\nStatus: %s", t1.dateStatus ? "Within date\n" : "Beyond date\n");
+                 printf("\nBonuses are not applicable.\n");
                  printf("\nEnter the no of subjects taught: ");
                  scanf("%d", &t1.noOfSubs);
                  // if beyond date, number of subjects taught is just stored //
